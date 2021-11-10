@@ -13,10 +13,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package main
+package cli
 
-import "github.com/trmiller/vendorme/cmd"
+import (
+	"context"
+	"fmt"
+)
 
-func main() {
-	cmd.Execute()
+type PullCommand struct {
+		Foo		string
+}
+
+func(c *PullCommand) Exec(ctx context.Context, directory []string) (err error){
+	fmt.Println("TOTALLY VENDORING RIGHT NOW")
+
+	return nil
 }
