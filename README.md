@@ -6,6 +6,10 @@ TODO: Screen shot
 
 ## Installation
 
+With go 1.16 installed, run
+
+`go install github.com/trmiller/vendorme@latest`
+
 ## How it works
 
 ## Useage
