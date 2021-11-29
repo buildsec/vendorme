@@ -12,12 +12,16 @@ With go 1.16 installed, run
 
 ## How it works
 
-Vendorme takes a basic definition of what you want to vendor, and how to validate it.  It will then go through your file ( see [example/vendor.yaml](example here) )
+Vendorme takes a basic definition of what you want to vendor, and how to validate it.  It will then go through your file ( see [https://github.com/trmiller/vendorme/example/vendor.yaml](example here) )
 
 Currently it only supports [github.com/sigstore/rekor](rekor) validations.  
 
 ## Useage
 
 `vendorme pull` will default to looking for a **vendor.yaml**
+
+<p align="center">
+  <img src="./img/screenshot.png" alt="Vendorme CLI">
+</p>
 
 otherwise `vendorme pull yourvendorfile.yaml`
