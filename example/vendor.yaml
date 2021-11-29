@@ -1,0 +1,5 @@
+files:
+  - release_file: "https://storage.googleapis.com/tekton-releases/pipeline/previous/v0.29.0/release.yaml"
+    rekor_uuid: "8ba5dcc45b9fad4d879a8b6815cdaa85fdee1d9fc24cf8811f103d537c602908"
+    destination_dir: "tekton/pipeline"
+    version: "v0.29.0"
