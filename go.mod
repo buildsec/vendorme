@@ -3,7 +3,7 @@ module github.com/trmiller/vendorme
 go 1.16
 
 require (
-	github.com/fatih/color v1.13.0 // indirect
+	github.com/fatih/color v1.13.0
 	github.com/in-toto/in-toto-golang v0.2.1-0.20210627200632-886210ae2ab9
 	github.com/sigstore/rekor v0.3.0
 	github.com/spf13/cobra v1.2.1

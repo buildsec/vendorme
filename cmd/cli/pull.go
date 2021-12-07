@@ -22,7 +22,6 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"os"
 	"strings"
 
@@ -59,7 +58,7 @@ func (c *PullCommand) Exec(ctx context.Context, directory []string) (err error) 
 	config, err := readConf(c.VendorMeConfig)
 
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	for _, vendorFile := range config.Files {
