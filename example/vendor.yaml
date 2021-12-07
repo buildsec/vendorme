@@ -6,5 +6,5 @@ files:
     validation_type: "rekor"
   - release_file: "https://raw.githubusercontent.com/kyverno/kyverno/main/config/install.yaml"
     destination_dir: "kyverno/release"
-    sha256: "f20dbfd87a91935f8b69b9a9802edbc486a1c4a09861b49cc12c79b357202ec"
+    sha256: "f20dbfd87a91935f8b69b9a9802edbc486a1c4a09861b49cc12c79b357202ecc"
     validation_type: "sha256"
