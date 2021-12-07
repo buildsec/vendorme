@@ -35,5 +35,5 @@ func Execute() {
 }
 
 func init() {
-	rootCmd.PersistentFlags().StringVarP(&configFile, "file", "f", ".vendorme.yaml", "config file with vendor and validation information")
+	rootCmd.PersistentFlags().StringVarP(&configFile, "file", "f", "vendorme.yaml", "config file with vendor and validation information")
 }
