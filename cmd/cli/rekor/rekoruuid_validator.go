@@ -3,9 +3,10 @@ package rekor
 import (
 	"encoding/base64"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"strings"
+
+	"gopkg.in/yaml.v3"
 
 	"github.com/fatih/color"
 	"github.com/in-toto/in-toto-golang/in_toto"
@@ -55,14 +56,77 @@ func Validate(vendorFile config.VendorFile, downloadedFile string) (err error) {
 
 		fileContents, err := util.ReadFile(downloadedFile)
 
+		var subjects []string
 		for _, s := range provenance.Subject {
 			verification_string := fmt.Sprintf("%s:%s@sha256:%s", s.Name, vendorFile.Version, s.Digest["sha256"])
-			if !strings.Contains(*fileContents, verification_string) {
-				color.Red(fmt.Sprintf("Cannot locate ` %s ` in %s", verification_string, downloadedFile))
-				return errors.New("Cannot validate " + verification_string)
+			subjects = append(subjects, verification_string)
+		}
+
+		if err := validateYaml(*fileContents, subjects); err != nil {
+			imageError, ok := err.(*ImageValidationError)
+			if ok {
+				color.Red(fmt.Sprintf("Cannot locate ` %s ` in %s", imageError.image, downloadedFile))
 			}
+			return err
 		}
 	}
 
 	return nil
+}
+
+type ImageValidationError struct {
+	image string
+}
+
+func (e *ImageValidationError) Error() string {
+	return fmt.Sprintf("Cannot validate %v", e.image)
+}
+
+func validateYaml(y string, subjects []string) error {
+	for _, resourceYaml := range strings.Split(y, "---") {
+		m := make(map[string]interface{})
+		e := yaml.Unmarshal([]byte(resourceYaml), m)
+		if e != nil {
+			panic(e)
+		}
+
+		if err := walkMap(m, subjects); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func walkMap(m map[string]interface{}, subjects []string) error {
+	for k, v := range m {
+		switch x := v.(type) {
+		case map[string]interface{}:
+			walkMap(x, subjects)
+		case []interface{}:
+			for _, l := range v.([]interface{}) {
+				if x, ok := l.(map[string]interface{}); ok {
+					walkMap(x, subjects)
+				}
+			}
+		case string:
+			subject := v.(string)
+			if k == "image" {
+				if contains(subjects, subject) {
+					color.Yellow(fmt.Sprintf("image: %v\n", subject))
+				} else {
+					return &ImageValidationError{image: subject}
+				}
+			}
+		}
+	}
+	return nil
+}
+
+func contains(l []string, v string) bool {
+	for _, s := range l {
+		if v == s {
+			return true
+		}
+	}
+	return false
 }
