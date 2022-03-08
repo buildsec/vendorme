@@ -4,7 +4,7 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
-	"strings"
+	"os"
 
 	"gopkg.in/yaml.v3"
 
@@ -14,7 +14,6 @@ import (
 	"github.com/sigstore/rekor/pkg/generated/client/entries"
 	"github.com/tidwall/pretty"
 	"github.com/trmiller/vendorme/cmd/cli/config"
-	"github.com/trmiller/vendorme/util"
 )
 
 func Validate(vendorFile config.VendorFile, downloadedFile string) (err error) {
@@ -54,15 +53,13 @@ func Validate(vendorFile config.VendorFile, downloadedFile string) (err error) {
 			return err
 		}
 
-		fileContents, err := util.ReadFile(downloadedFile)
-
 		var subjects []string
 		for _, s := range provenance.Subject {
 			verification_string := fmt.Sprintf("%s:%s@sha256:%s", s.Name, vendorFile.Version, s.Digest["sha256"])
 			subjects = append(subjects, verification_string)
 		}
 
-		if err := validateYaml(*fileContents, subjects); err != nil {
+		if err := validateYaml(downloadedFile, subjects); err != nil {
 			imageError, ok := err.(*ImageValidationError)
 			if ok {
 				color.Red(fmt.Sprintf("Cannot locate ` %s ` in %s", imageError.image, downloadedFile))
@@ -82,12 +79,17 @@ func (e *ImageValidationError) Error() string {
 	return fmt.Sprintf("Cannot validate %v", e.image)
 }
 
-func validateYaml(y string, subjects []string) error {
-	for _, resourceYaml := range strings.Split(y, "---") {
+func validateYaml(yamlFile string, subjects []string) error {
+	f, err := os.Open(yamlFile)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+	dec := yaml.NewDecoder(f)
+	for {
 		m := make(map[string]interface{})
-		e := yaml.Unmarshal([]byte(resourceYaml), m)
-		if e != nil {
-			panic(e)
+		if dec.Decode(m) != nil {
+			break
 		}
 
 		if err := walkMap(m, subjects); err != nil {
