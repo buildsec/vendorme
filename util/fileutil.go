@@ -19,6 +19,7 @@ import (
 	"io"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 	"os"
 	"path"
 )
@@ -32,7 +33,11 @@ func DownloadFile(fileurl string, destinationdir string) (*string, error) {
 
 	defer resp.Body.Close()
 
-	filename := path.Base(resp.Request.URL.Path)
+	u, err := url.Parse(fileurl)
+	if err != nil {
+		return nil, err
+	}
+	filename := path.Base(u.Path)
 	fullpath := path.Join(destinationdir, filename)
 
 	err = os.MkdirAll(destinationdir, os.ModePerm)
