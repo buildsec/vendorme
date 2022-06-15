@@ -37,6 +37,9 @@ func Validate(vendorFile config.VendorFile, downloadedFile string) (err error) {
 			// This shouldn't really happen, the uuid id you asked for isn't what you got back
 			continue
 		}
+		if entry.Attestation == nil {
+			continue
+		}
 
 		decoded, err := base64.StdEncoding.DecodeString(string(entry.Attestation.Data))
 
