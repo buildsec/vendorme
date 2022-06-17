@@ -38,7 +38,8 @@ func Validate(vendorFile config.VendorFile, downloadedFile string) (err error) {
 			continue
 		}
 		if entry.Attestation == nil {
-			continue
+			color.Red(fmt.Sprintf("Cannot validate ` %s ` - Attestation data missing from Rekor", vendorFile.ReleaseFile))
+			return &ImageValidationError{image: vendorFile.RekorUUID}
 		}
 
 		decoded, err := base64.StdEncoding.DecodeString(string(entry.Attestation.Data))
