@@ -7,8 +7,8 @@ import (
 	"io"
 	"os"
 
+	"github.com/buildsec/vendorme/cmd/cli/config"
 	"github.com/fatih/color"
-	"github.com/trmiller/vendorme/cmd/cli/config"
 )
 
 func Validate(vendorFile config.VendorFile, downloadedFile string) (err error) {

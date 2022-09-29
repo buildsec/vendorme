@@ -1,4 +1,4 @@
-module github.com/trmiller/vendorme
+module github.com/buildsec/vendorme
 
 go 1.16
 

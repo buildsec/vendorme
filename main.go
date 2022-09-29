@@ -15,7 +15,7 @@
 
 package main
 
-import "github.com/trmiller/vendorme/cmd"
+import "github.com/buildsec/vendorme/cmd"
 
 func main() {
 	cmd.Execute()

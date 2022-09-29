@@ -6,7 +6,7 @@ Vendorme is a tool that makes vendoring your project easier to do.  It improves 
 
 With go 1.16 installed, run
 
-`go install github.com/trmiller/vendorme@latest`
+`go install github.com/buildsec/vendorme@latest`
 
 ## How it works
 
