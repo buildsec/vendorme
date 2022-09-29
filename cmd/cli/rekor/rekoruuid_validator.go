@@ -41,10 +41,10 @@ func Validate(vendorFile config.VendorFile, downloadedFile string) (err error) {
 			continue
 		}
 
-		decoded, err := base64.StdEncoding.DecodeString(string(entry.Attestation.Data))
+		decoded, err := base64.StdEncoding.DecodeString(entry.Attestation.Data.String())
 
 		if err != nil {
-			return err
+			return fmt.Errorf("failed to decode attestation for %s, %w", vendorFile.ReleaseFile, err)
 		}
 
 		real_json := fmt.Sprintf("%s", pretty.Pretty(decoded))
