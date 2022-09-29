@@ -22,11 +22,11 @@ import (
 	"io/ioutil"
 	"os"
 
+	"github.com/buildsec/vendorme/cmd/cli/checksum"
+	"github.com/buildsec/vendorme/cmd/cli/config"
+	"github.com/buildsec/vendorme/cmd/cli/rekor"
+	"github.com/buildsec/vendorme/util"
 	"github.com/fatih/color"
-	"github.com/trmiller/vendorme/cmd/cli/checksum"
-	"github.com/trmiller/vendorme/cmd/cli/config"
-	"github.com/trmiller/vendorme/cmd/cli/rekor"
-	"github.com/trmiller/vendorme/util"
 	"gopkg.in/yaml.v3"
 )
 

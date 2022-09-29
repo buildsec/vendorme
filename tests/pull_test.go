@@ -1,8 +1,9 @@
 package cli_test
 
 import (
-	"github.com/trmiller/vendorme/cmd/cli"
 	"testing"
+
+	"github.com/buildsec/vendorme/cmd/cli"
 )
 
 func TestExecErrorsWhenFileNotPresent(t *testing.T) {

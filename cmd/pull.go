@@ -16,16 +16,15 @@
 package cmd
 
 import (
-
+	"github.com/buildsec/vendorme/cmd/cli"
 	"github.com/spf13/cobra"
-	"github.com/trmiller/vendorme/cmd/cli"
 )
 
 // pullCmd represents the pull command
 var pullCmd = &cobra.Command{
 	Use:   "pull",
 	Short: "Pull in vendored dependences and validate",
-	Long: `Vendor each of the depedencies in the project ( Go, Git, Python, etc ), and validate against the highest integrity source`,
+	Long:  `Vendor each of the depedencies in the project ( Go, Git, Python, etc ), and validate against the highest integrity source`,
 	Example: `  vendorme pull foo
 
 	# vendor dependencies for everything in the current project
@@ -35,7 +34,7 @@ var pullCmd = &cobra.Command{
 	vendorme pull ./myvendorconfig.yaml`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		p := cli.PullCommand{
-			VendorMeConfig:	"vendor.yaml",
+			VendorMeConfig: "vendor.yaml",
 		}
 		return p.Exec(cmd.Context(), args)
 	},

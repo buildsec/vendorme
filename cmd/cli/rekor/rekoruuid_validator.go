@@ -8,12 +8,12 @@ import (
 
 	"gopkg.in/yaml.v3"
 
+	"github.com/buildsec/vendorme/cmd/cli/config"
 	"github.com/fatih/color"
 	"github.com/in-toto/in-toto-golang/in_toto"
 	rekorClient "github.com/sigstore/rekor/pkg/client"
 	"github.com/sigstore/rekor/pkg/generated/client/entries"
 	"github.com/tidwall/pretty"
-	"github.com/trmiller/vendorme/cmd/cli/config"
 )
 
 func Validate(vendorFile config.VendorFile, downloadedFile string) (err error) {
