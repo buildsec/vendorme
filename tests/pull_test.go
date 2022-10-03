@@ -1,6 +1,8 @@
 package cli_test
 
 import (
+	"os"
+	"path"
 	"testing"
 
 	"github.com/buildsec/vendorme/cmd/cli"
@@ -31,5 +33,27 @@ func TestExecErrorsWithMalformedYaml(t *testing.T) {
 
 	if err == nil {
 		t.Error("Expect unmarshalling error here")
+	}
+}
+
+func TestExecTektonYaml(t *testing.T) {
+	tmp := t.TempDir()
+	dir, derr := os.Getwd()
+	if derr != nil {
+		t.Error(derr)
+	}
+	os.Chdir(tmp)
+	defer os.Chdir(dir)
+
+	p := cli.PullCommand{
+		VendorMeConfig: path.Join(dir, "tekton.yaml"),
+	}
+
+	var args []string
+
+	err := p.Exec(nil, args)
+
+	if err != nil {
+		t.Error(err)
 	}
 }
